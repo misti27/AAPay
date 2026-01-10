@@ -1,0 +1,5 @@
+{
+  "name": "AA Pay - 智能 AA 账单",
+  "description": "一个 AI 驱动的 AA 账单生成器，上传小票截图即可自动提取菜品并计算分摊费用。",
+  "requestFramePermissions": []
+}
