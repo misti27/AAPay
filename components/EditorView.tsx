@@ -368,7 +368,7 @@ export const EditorView: React.FC<EditorViewProps> = ({
                  <input 
                     type="number" 
                     className="text-right font-mono font-bold text-xl text-indigo-600 bg-indigo-50 border border-indigo-100 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
-                    style={{ width: `${Math.max((grandTotalInput || '').length, 5) + 2}ch` }}
+                    style={{ width: `${Math.max((grandTotalInput || '').length, 5) + 5}ch` }}
                     value={grandTotalInput}
                     onFocus={(e) => e.target.select()}
                     onChange={(e) => handleUpdateGrandTotal(e.target.value)}
@@ -393,4 +393,4 @@ export const EditorView: React.FC<EditorViewProps> = ({
       </div>
     </div>
   );
-};
+}
