@@ -69,6 +69,38 @@ const App: React.FC = () => {
     setOrders(prev => prev.map(o => o.id === updatedOrder.id ? updatedOrder : o));
   };
 
+  const handleDeleteParticipant = (participantId: string) => {
+    if (participants.length <= 1) {
+      alert("至少需要一名参与者。");
+      return;
+    }
+    
+    const newParticipants = participants.filter(p => p.id !== participantId);
+    setParticipants(newParticipants);
+    
+    setOrders(prevOrders => prevOrders.map(order => {
+      let changed = false;
+      let newPayerId = order.payerId;
+      if (newPayerId === participantId) {
+        newPayerId = newParticipants[0].id;
+        changed = true;
+      }
+      
+      const newItems = order.items.map(item => {
+        if (item.assignedTo.includes(participantId)) {
+          changed = true;
+          return { ...item, assignedTo: item.assignedTo.filter(id => id !== participantId) };
+        }
+        return item;
+      });
+      
+      if (changed) {
+        return { ...order, payerId: newPayerId, items: newItems };
+      }
+      return order;
+    }));
+  };
+
   const handleDeleteOrder = (orderId: string) => {
     if (orders.length <= 1) {
       if (window.confirm("这是最后一笔订单，删除将清空并返回首页，确定吗？")) {
@@ -143,6 +175,7 @@ const App: React.FC = () => {
                 activeOrderId={activeOrderId}
                 participants={participants}
                 onUpdateParticipants={setParticipants}
+                onDeleteParticipant={handleDeleteParticipant}
                 onUpdateOrder={handleUpdateOrder}
                 onSelectOrder={setActiveOrderId}
                 onAddOrder={handleAddOrderRequest}

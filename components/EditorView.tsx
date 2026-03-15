@@ -6,6 +6,7 @@ interface EditorViewProps {
   activeOrderId: string;
   participants: Participant[];
   onUpdateParticipants: (participants: Participant[]) => void;
+  onDeleteParticipant: (id: string) => void;
   onUpdateOrder: (order: Order) => void;
   onSelectOrder: (id: string) => void;
   onAddOrder: () => void;
@@ -18,6 +19,7 @@ export const EditorView: React.FC<EditorViewProps> = ({
   activeOrderId, 
   participants, 
   onUpdateParticipants, 
+  onDeleteParticipant,
   onUpdateOrder, 
   onSelectOrder,
   onAddOrder,
@@ -217,7 +219,7 @@ export const EditorView: React.FC<EditorViewProps> = ({
             </div>
             <div className="space-y-2">
               {participants.map((p, idx) => (
-                <div key={p.id} className="flex items-center gap-2 bg-gray-50/50 p-1.5 rounded-lg border border-transparent hover:border-gray-200 focus-within:border-indigo-300 transition-colors">
+                <div key={p.id} className="flex items-center gap-2 bg-gray-50/50 p-1.5 rounded-lg border border-transparent hover:border-gray-200 focus-within:border-indigo-300 transition-colors group">
                   <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0 shadow-sm`} style={{ backgroundColor: `hsl(${idx * 60}, 70%, 50%)`}}>
                     {p.name.charAt(0)}
                   </div>
@@ -228,6 +230,15 @@ export const EditorView: React.FC<EditorViewProps> = ({
                     className="flex-1 bg-transparent border-none outline-none text-gray-800 text-sm p-0 focus:ring-0"
                     placeholder="Name"
                   />
+                  {participants.length > 1 && (
+                    <button 
+                      onClick={() => onDeleteParticipant(p.id)}
+                      className="opacity-0 group-hover:opacity-100 p-1 text-gray-400 hover:text-red-500 transition-all rounded hover:bg-red-50"
+                      title="删除参与者"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                  )}
                 </div>
               ))}
                <button 
